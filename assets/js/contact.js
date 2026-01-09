@@ -29,43 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 폼 제출 처리 (Netlify 폼)
-    // Netlify가 기본적으로 폼을 처리하므로 JavaScript는 최소한으로 개입
-    if (contactForm) {
-        const submitButton = contactForm.querySelector('button[type="submit"]');
-        let originalButtonText = '문의하기';
-        if (submitButton) {
-            originalButtonText = submitButton.textContent;
-        }
-
-        // 폼 제출 처리 - Netlify가 자동으로 처리하도록 함
-        // HTML5 validation이 먼저 실행되므로 여기서는 로딩 상태만 관리
-        contactForm.addEventListener('submit', function(e) {
-            // HTML5 validation이 통과했는지 확인
-            if (!contactForm.checkValidity()) {
-                // HTML5 validation 실패 시 브라우저 기본 동작 허용
-                return true;
-            }
-
-            // 모든 검증 통과 시 로딩 상태만 표시
-            // Netlify가 폼을 자동으로 처리하므로 preventDefault()를 호출하지 않음
-            if (submitButton) {
-                submitButton.disabled = true;
-                submitButton.textContent = '전송 중...';
-                
-                // 폼 제출이 완료되지 않는 경우를 대비해 타임아웃 설정
-                setTimeout(function() {
-                    if (submitButton && submitButton.disabled) {
-                        submitButton.disabled = false;
-                        submitButton.textContent = originalButtonText;
-                    }
-                }, 15000);
-            }
-            
-            // Netlify가 자동으로 폼을 처리함
-            // preventDefault()를 호출하지 않으므로 폼이 정상적으로 제출됨
-        });
-    }
+    // Netlify가 폼을 자동으로 처리하므로 JavaScript에서 submit 이벤트를 가로채지 않음
+    // 폼 제출은 Netlify가 직접 처리하도록 함
 
     // URL 파라미터로 성공/실패 메시지 확인
     const urlParams = new URLSearchParams(window.location.search);
