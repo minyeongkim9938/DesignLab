@@ -1,17 +1,14 @@
 // 문의하기 폼 처리
 
 document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
+    // Netlify가 폼을 자동으로 처리하므로 JavaScript는 폼 제출을 방해하지 않음
+    // 오직 UI 기능(글자 수 카운트, 성공 메시지)만 처리
+    
     const contactMessage = document.getElementById('contactMessage');
     const charCount = document.getElementById('charCount');
     const formMessage = document.getElementById('formMessage');
-    const footerData = {
-        contact: {
-            email: 'lili9938@naver.com'
-        }
-    };
 
-    // 글자 수 카운트
+    // 글자 수 카운트 기능만 유지
     if (contactMessage && charCount) {
         contactMessage.addEventListener('input', function() {
             const currentLength = this.value.length;
@@ -29,10 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Netlify가 폼을 자동으로 처리하므로 JavaScript에서 submit 이벤트를 가로채지 않음
-    // 폼 제출은 Netlify가 직접 처리하도록 함
-
-    // URL 파라미터로 성공/실패 메시지 확인
+    // URL 파라미터로 성공/실패 메시지 확인 (Netlify가 리다이렉트 후 표시)
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('success') === 'true') {
         showMessage('문의사항이 성공적으로 전송되었습니다. 빠른 시일 내에 답변 드리겠습니다.', 'success');
@@ -43,13 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // 이메일 유효성 검사
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    // 메시지 표시
+    // 메시지 표시 함수
     function showMessage(message, type) {
         if (!formMessage) return;
         

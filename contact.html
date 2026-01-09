@@ -37,12 +37,7 @@
                 <h2>📝 문의하기</h2>
                 <p class="form-description">아래 폼을 작성해주시면 이메일로 문의사항이 전송됩니다.</p>
                 
-                <form name="contact" netlify netlify-honeypot="bot-field" id="contactForm" class="contact-form">
-                    <input type="hidden" name="form-name" value="contact" />
-                    <p style="display: none;">
-                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-                    </p>
-
+                <form name="contact" netlify id="contactForm" class="contact-form">
                     <div class="form-group">
                         <label for="contactName">이름 <span class="required">*</span></label>
                         <input type="text" id="contactName" name="name" class="form-input" placeholder="이름을 입력해주세요" required>
@@ -60,7 +55,7 @@
 
                     <div class="form-group">
                         <label for="contactMessage">문의 내용 <span class="required">*</span></label>
-                        <textarea id="contactMessage" name="message" class="form-textarea" rows="8" placeholder="문의하실 내용을 자세히 입력해주세요" required minlength="10"></textarea>
+                        <textarea id="contactMessage" name="message" class="form-textarea" rows="8" placeholder="문의하실 내용을 자세히 입력해주세요" required></textarea>
                         <div class="char-count"><span id="charCount">0</span> / 2000자</div>
                     </div>
 
