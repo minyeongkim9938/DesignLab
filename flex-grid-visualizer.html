@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex/Grid 시각화 도구 - CSS 레이아웃 학습</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/converter.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>📐 Flex/Grid 시각화 도구</h1>
+            <p>CSS Flexbox와 Grid 레이아웃을 시각적으로 테스트하고 학습하세요</p>
+        </header>
+
+        <main>
+            <!-- 레이아웃 타입 선택 -->
+            <div class="settings-section">
+                <h3>레이아웃 타입 선택</h3>
+                <div class="layout-type-buttons">
+                    <button class="btn btn-primary layout-type-btn active" data-type="flexbox">Flexbox</button>
+                    <button class="btn btn-secondary layout-type-btn" data-type="grid">Grid</button>
+                </div>
+            </div>
+
+            <!-- 컨트롤 패널 -->
+            <div class="settings-section" id="controlsSection">
+                <h3>속성 조절</h3>
+                <div id="flexControls" class="layout-controls">
+                    <!-- Flexbox 컨트롤 -->
+                    <div class="control-group">
+                        <label>flex-direction:</label>
+                        <select id="flexDirection" class="format-select">
+                            <option value="row">row</option>
+                            <option value="row-reverse">row-reverse</option>
+                            <option value="column">column</option>
+                            <option value="column-reverse">column-reverse</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>justify-content:</label>
+                        <select id="justifyContent" class="format-select">
+                            <option value="flex-start">flex-start</option>
+                            <option value="flex-end">flex-end</option>
+                            <option value="center" selected>center</option>
+                            <option value="space-between">space-between</option>
+                            <option value="space-around">space-around</option>
+                            <option value="space-evenly">space-evenly</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>align-items:</label>
+                        <select id="alignItems" class="format-select">
+                            <option value="flex-start">flex-start</option>
+                            <option value="flex-end">flex-end</option>
+                            <option value="center" selected>center</option>
+                            <option value="stretch">stretch</option>
+                            <option value="baseline">baseline</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>flex-wrap:</label>
+                        <select id="flexWrap" class="format-select">
+                            <option value="nowrap" selected>nowrap</option>
+                            <option value="wrap">wrap</option>
+                            <option value="wrap-reverse">wrap-reverse</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>gap:</label>
+                        <input type="number" id="flexGap" value="10" min="0" max="50" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label>아이템 개수:</label>
+                        <input type="number" id="itemCount" value="6" min="1" max="20" class="format-select">
+                    </div>
+                </div>
+                <div class="item-update-section" id="flexUpdateSection">
+                    <button class="btn btn-primary" id="updateItemsBtn">아이템 업데이트</button>
+                </div>
+
+                <div id="gridControls" class="layout-controls" style="display: none;">
+                    <!-- Grid 컨트롤 -->
+                    <div class="control-group">
+                        <label>grid-template-columns:</label>
+                        <input type="text" id="gridColumns" value="1fr 1fr 1fr" placeholder="1fr 1fr 1fr" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label>grid-template-rows:</label>
+                        <input type="text" id="gridRows" value="1fr 1fr" placeholder="1fr 1fr" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label>justify-items:</label>
+                        <select id="gridJustifyItems" class="format-select">
+                            <option value="start">start</option>
+                            <option value="end">end</option>
+                            <option value="center" selected>center</option>
+                            <option value="stretch">stretch</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>align-items:</label>
+                        <select id="gridAlignItems" class="format-select">
+                            <option value="start">start</option>
+                            <option value="end">end</option>
+                            <option value="center" selected>center</option>
+                            <option value="stretch">stretch</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>gap:</label>
+                        <input type="number" id="gridGap" value="10" min="0" max="50" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label>아이템 개수:</label>
+                        <input type="number" id="itemCountGrid" value="6" min="1" max="20" class="format-select">
+                    </div>
+                </div>
+                <div class="item-update-section" id="gridUpdateSection" style="display: none;">
+                    <button class="btn btn-primary" id="updateItemsBtnGrid">아이템 업데이트</button>
+                </div>
+            </div>
+
+            <!-- 시각화 영역 -->
+            <div class="visualizer-section">
+                <div class="visualizer-header">
+                    <h3>시각화 미리보기</h3>
+                    <button class="btn btn-secondary btn-small" id="copyCodeBtn">CSS 코드 복사</button>
+                </div>
+                <div class="visualizer-container" id="visualizerContainer">
+                    <div class="visualizer-box" id="visualizerBox">
+                        <!-- 동적으로 아이템 생성 -->
+                    </div>
+                </div>
+                <div class="css-code-section" id="cssCodeSection">
+                    <h4>생성된 CSS 코드:</h4>
+                    <pre id="cssCode"></pre>
+                </div>
+            </div>
+        </main>
+
+        <!-- 페이지 설명 섹션 -->
+        <section class="page-description">
+            <div class="description-header">
+                <h2>📖 사용법 안내</h2>
+                <button class="toggle-btn" id="toggleDescription">
+                    <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            <div class="description-content" id="descriptionContent">
+                <div class="description-section">
+                    <h3>🎯 주요 기능</h3>
+                    <ul>
+                        <li><strong>Flexbox 시각화:</strong> Flexbox 속성을 조절하여 레이아웃을 실시간으로 확인할 수 있습니다.</li>
+                        <li><strong>Grid 시각화:</strong> CSS Grid 속성을 조절하여 그리드 레이아웃을 테스트할 수 있습니다.</li>
+                        <li><strong>실시간 미리보기:</strong> 속성 변경 시 즉시 결과를 확인할 수 있습니다.</li>
+                        <li><strong>CSS 코드 생성:</strong> 현재 설정에 해당하는 CSS 코드를 확인하고 복사할 수 있습니다.</li>
+                        <li><strong>아이템 개수 조절:</strong> 원하는 개수의 아이템을 생성하여 테스트할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 Flexbox 속성 설명</h3>
+                    <ul>
+                        <li><strong>flex-direction:</strong> 주축 방향을 설정합니다 (row, column 등)</li>
+                        <li><strong>justify-content:</strong> 주축 방향의 정렬을 설정합니다</li>
+                        <li><strong>align-items:</strong> 교차축 방향의 정렬을 설정합니다</li>
+                        <li><strong>flex-wrap:</strong> 아이템의 줄바꿈을 설정합니다</li>
+                        <li><strong>gap:</strong> 아이템 사이의 간격을 설정합니다</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 Grid 속성 설명</h3>
+                    <ul>
+                        <li><strong>grid-template-columns:</strong> 열의 크기를 정의합니다 (예: 1fr 1fr 1fr, repeat(3, 1fr))</li>
+                        <li><strong>grid-template-rows:</strong> 행의 크기를 정의합니다</li>
+                        <li><strong>justify-items:</strong> 그리드 아이템의 가로 정렬을 설정합니다</li>
+                        <li><strong>align-items:</strong> 그리드 아이템의 세로 정렬을 설정합니다</li>
+                        <li><strong>gap:</strong> 그리드 아이템 사이의 간격을 설정합니다</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/flex-grid-visualizer.js"></script>
+</body>
+</html>
+

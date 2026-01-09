@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응형 미리보기 - 웹사이트 반응형 테스트 도구</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/converter.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>📱 반응형 미리보기</h1>
+            <p>웹사이트를 다양한 디바이스 크기에서 미리보고 테스트하세요</p>
+        </header>
+
+        <main>
+            <!-- URL 입력 섹션 -->
+            <div class="settings-section">
+                <h3>웹사이트 URL 입력</h3>
+                <div class="url-input-group">
+                    <input type="text" id="urlInput" class="url-input" placeholder="https://example.com" value="">
+                    <button id="loadUrlBtn" class="btn btn-primary">로드</button>
+                </div>
+                <p class="url-hint">웹사이트 URL을 입력하고 로드 버튼을 클릭하세요</p>
+                <p class="url-hint warning-hint">⚠️ 일부 사이트는 보안 정책(X-Frame-Options, CSP 등)으로 인해 iframe에서 로드되지 않을 수 있습니다.</p>
+            </div>
+
+            <!-- 디바이스 크기 선택 -->
+            <div class="settings-section">
+                <h3>디바이스 크기 선택</h3>
+                <div class="device-buttons">
+                    <button class="btn btn-preset device-btn active" data-width="375" data-height="667" data-name="iPhone SE">iPhone SE<br><small>375×667</small></button>
+                    <button class="btn btn-preset device-btn" data-width="390" data-height="844" data-name="iPhone 12/13">iPhone 12/13<br><small>390×844</small></button>
+                    <button class="btn btn-preset device-btn" data-width="414" data-height="896" data-name="iPhone 11 Pro Max">iPhone 11 Pro Max<br><small>414×896</small></button>
+                    <button class="btn btn-preset device-btn" data-width="768" data-height="1024" data-name="iPad">iPad<br><small>768×1024</small></button>
+                    <button class="btn btn-preset device-btn" data-width="1024" data-height="1366" data-name="iPad Pro">iPad Pro<br><small>1024×1366</small></button>
+                    <button class="btn btn-preset device-btn" data-width="1280" data-height="720" data-name="Desktop">Desktop<br><small>1280×720</small></button>
+                    <button class="btn btn-preset device-btn" data-width="1920" data-height="1080" data-name="Full HD">Full HD<br><small>1920×1080</small></button>
+                </div>
+            </div>
+
+            <!-- 커스텀 크기 -->
+            <div class="settings-section">
+                <h3>커스텀 크기</h3>
+                <div class="custom-size-controls">
+                    <div class="control-group">
+                        <label>너비 (px):</label>
+                        <input type="number" id="customWidth" class="size-input" value="1280" min="320" max="3840">
+                    </div>
+                    <div class="control-group">
+                        <label>높이 (px):</label>
+                        <input type="number" id="customHeight" class="size-input" value="720" min="240" max="2160">
+                    </div>
+                    <button id="applyCustomSize" class="btn btn-primary">적용</button>
+                </div>
+            </div>
+
+            <!-- 미리보기 영역 -->
+            <div class="preview-section">
+                <div class="preview-header">
+                    <h3 id="deviceName">Desktop - 1280×720</h3>
+                    <div class="preview-controls">
+                        <button id="refreshBtn" class="btn btn-small">새로고침</button>
+                        <button id="fullscreenBtn" class="btn btn-small">전체화면</button>
+                    </div>
+                </div>
+                <div class="preview-wrapper" id="previewWrapper">
+                    <div class="preview-container" id="previewContainer">
+                        <iframe id="previewFrame" src="about:blank" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/responsive-preview.js"></script>
+</body>
+</html>
+

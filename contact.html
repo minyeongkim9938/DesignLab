@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의하기 - DesignLab</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>📧 문의하기</h1>
+            <p>문의사항이나 제안사항이 있으시다면 언제든지 연락주세요</p>
+        </header>
+
+        <main class="contact-content">
+            <div class="contact-info-section">
+                <h2>💬 연락처 정보</h2>
+                <div class="contact-methods">
+                    <div class="contact-method-card">
+                        <div class="contact-method-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>
+                        </div>
+                        <h3>이메일</h3>
+                        <p><a href="mailto:lili9938@naver.com">lili9938@naver.com</a></p>
+                        <p class="contact-note">이메일로 문의사항을 보내주시면 빠르게 답변드리겠습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-section">
+                <h2>📝 문의하기</h2>
+                <p class="form-description">아래 폼을 작성해주시면 이메일로 문의사항이 전송됩니다.</p>
+                
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="contactName">이름 <span class="required">*</span></label>
+                        <input type="text" id="contactName" name="name" class="form-input" placeholder="이름을 입력해주세요" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactEmail">이메일 <span class="required">*</span></label>
+                        <input type="email" id="contactEmail" name="email" class="form-input" placeholder="your.email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactSubject">제목 <span class="required">*</span></label>
+                        <input type="text" id="contactSubject" name="subject" class="form-input" placeholder="문의 제목을 입력해주세요" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMessage">문의 내용 <span class="required">*</span></label>
+                        <textarea id="contactMessage" name="message" class="form-textarea" rows="8" placeholder="문의하실 내용을 자세히 입력해주세요" required></textarea>
+                        <div class="char-count"><span id="charCount">0</span> / 2000자</div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-submit">문의하기</button>
+                        <button type="reset" class="btn btn-secondary">초기화</button>
+                    </div>
+                </form>
+
+                <div id="formMessage" class="form-message" style="display: none;"></div>
+            </div>
+
+            <div class="contact-section">
+                <h2>⏰ 응대 시간</h2>
+                <div class="response-time-info">
+                    <p><strong>평일:</strong> 오전 9시 ~ 오후 6시</p>
+                    <p><strong>주말 및 공휴일:</strong> 휴무</p>
+                    <p class="response-note">문의사항에 대한 답변은 평일 근무 시간 내에 신속하게 처리해드리겠습니다. 답변까지 1-2일 정도 소요될 수 있습니다.</p>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <div class="back-link">
+                    <a href="index.html" class="btn btn-primary">홈으로 돌아가기</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/contact.js"></script>
+</body>
+</html>
+

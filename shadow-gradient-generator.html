@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그림자·그라디언트 CSS 제너레이터 - CSS 효과 생성 도구</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/converter.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>✨ 그림자·그라디언트 CSS 제너레이터</h1>
+            <p>박스 그림자, 텍스트 그림자, 그라디언트 CSS 코드를 생성하세요</p>
+        </header>
+
+        <main>
+            <!-- 타입 선택 -->
+            <div class="settings-section">
+                <h3>효과 타입 선택</h3>
+                <div class="effect-type-buttons">
+                    <button class="btn btn-primary effect-type-btn active" data-type="box-shadow">박스 그림자</button>
+                    <button class="btn btn-secondary effect-type-btn" data-type="text-shadow">텍스트 그림자</button>
+                    <button class="btn btn-secondary effect-type-btn" data-type="gradient">그라디언트</button>
+                </div>
+            </div>
+
+            <!-- 박스 그림자 컨트롤 -->
+            <div class="settings-section" id="boxShadowControls">
+                <h3>박스 그림자 설정</h3>
+                <div class="layout-controls">
+                    <div class="control-group">
+                        <label for="boxShadowX">X 오프셋 (px)</label>
+                        <input type="range" id="boxShadowX" min="-50" max="50" value="0" class="range-input">
+                        <div class="range-value" id="boxShadowXValue">0px</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="boxShadowY">Y 오프셋 (px)</label>
+                        <input type="range" id="boxShadowY" min="-50" max="50" value="5" class="range-input">
+                        <div class="range-value" id="boxShadowYValue">5px</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="boxShadowBlur">블러 (px)</label>
+                        <input type="range" id="boxShadowBlur" min="0" max="50" value="15" class="range-input">
+                        <div class="range-value" id="boxShadowBlurValue">15px</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="boxShadowSpread">확산 (px)</label>
+                        <input type="range" id="boxShadowSpread" min="-20" max="20" value="0" class="range-input">
+                        <div class="range-value" id="boxShadowSpreadValue">0px</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="boxShadowColor">색상</label>
+                        <input type="color" id="boxShadowColor" value="#000000" class="color-input">
+                        <input type="text" id="boxShadowColorHex" value="#000000" class="hex-input">
+                    </div>
+                    <div class="control-group">
+                        <label for="boxShadowOpacity">투명도</label>
+                        <input type="range" id="boxShadowOpacity" min="0" max="100" value="30" class="range-input">
+                        <div class="range-value" id="boxShadowOpacityValue">30%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 텍스트 그림자 컨트롤 -->
+            <div class="settings-section" id="textShadowControls" style="display: none;">
+                <h3>텍스트 그림자 설정</h3>
+                <div class="layout-controls">
+                    <div class="control-group" style="grid-column: 1 / -1;">
+                        <label for="previewTextInput">미리보기 텍스트</label>
+                        <input type="text" id="previewTextInput" value="미리보기" class="format-select" placeholder="텍스트를 입력하세요">
+                    </div>
+                    <div class="control-group">
+                        <label for="textShadowX">X 오프셋 (px)</label>
+                        <input type="range" id="textShadowX" min="-20" max="20" value="2" class="range-input">
+                        <div class="range-value" id="textShadowXValue">2px</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="textShadowY">Y 오프셋 (px)</label>
+                        <input type="range" id="textShadowY" min="-20" max="20" value="2" class="range-input">
+                        <div class="range-value" id="textShadowYValue">2px</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="textShadowBlur">블러 (px)</label>
+                        <input type="range" id="textShadowBlur" min="0" max="20" value="4" class="range-input">
+                        <div class="range-value" id="textShadowBlurValue">4px</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="textShadowColor">색상</label>
+                        <input type="color" id="textShadowColor" value="#000000" class="color-input">
+                        <input type="text" id="textShadowColorHex" value="#000000" class="hex-input">
+                    </div>
+                    <div class="control-group">
+                        <label for="textShadowOpacity">투명도</label>
+                        <input type="range" id="textShadowOpacity" min="0" max="100" value="50" class="range-input">
+                        <div class="range-value" id="textShadowOpacityValue">50%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 그라디언트 컨트롤 -->
+            <div class="settings-section" id="gradientControls" style="display: none;">
+                <h3>그라디언트 설정</h3>
+                <div class="layout-controls">
+                    <div class="control-group">
+                        <label for="gradientType">타입</label>
+                        <select id="gradientType" class="format-select">
+                            <option value="linear">선형 (linear)</option>
+                            <option value="radial">방사형 (radial)</option>
+                        </select>
+                    </div>
+                    <div class="control-group" id="gradientDirectionGroup">
+                        <label for="gradientDirection">방향</label>
+                        <select id="gradientDirection" class="format-select">
+                            <option value="to right">→ 오른쪽</option>
+                            <option value="to bottom">↓ 아래</option>
+                            <option value="to bottom right">↘ 대각선</option>
+                            <option value="45deg">45deg</option>
+                            <option value="90deg">90deg</option>
+                            <option value="135deg">135deg</option>
+                            <option value="180deg">180deg</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="gradientColor1">색상 1</label>
+                        <input type="color" id="gradientColor1" value="#667eea" class="color-input">
+                        <input type="text" id="gradientColor1Hex" value="#667eea" class="hex-input">
+                    </div>
+                    <div class="control-group">
+                        <label for="gradientColor2">색상 2</label>
+                        <input type="color" id="gradientColor2" value="#764ba2" class="color-input">
+                        <input type="text" id="gradientColor2Hex" value="#764ba2" class="hex-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 미리보기 영역 -->
+            <div class="settings-section">
+                <h3>미리보기</h3>
+                <div class="preview-container-effect">
+                    <div class="preview-box" id="previewBox">
+                        <div class="preview-text" id="previewText">미리보기</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS 코드 -->
+            <div class="settings-section">
+                <div class="css-code-header">
+                    <h3>생성된 CSS 코드</h3>
+                    <button class="btn btn-secondary btn-small" id="copyCSSBtn">CSS 복사</button>
+                </div>
+                <div class="css-code-section">
+                    <pre id="cssCode"></pre>
+                </div>
+            </div>
+        </main>
+
+        <!-- 페이지 설명 섹션 -->
+        <section class="page-description">
+            <div class="description-header">
+                <h2>📖 사용법 안내</h2>
+                <button class="toggle-btn" id="toggleDescription">
+                    <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            <div class="description-content" id="descriptionContent">
+                <div class="description-section">
+                    <h3>🎯 주요 기능</h3>
+                    <ul>
+                        <li><strong>박스 그림자:</strong> 요소에 그림자 효과를 추가하는 CSS 코드를 생성합니다.</li>
+                        <li><strong>텍스트 그림자:</strong> 텍스트에 그림자 효과를 추가하는 CSS 코드를 생성합니다.</li>
+                        <li><strong>그라디언트:</strong> 선형 및 방사형 그라디언트 CSS 코드를 생성합니다.</li>
+                        <li><strong>실시간 미리보기:</strong> 설정을 변경하면 즉시 결과를 확인할 수 있습니다.</li>
+                        <li><strong>CSS 코드 복사:</strong> 생성된 CSS 코드를 쉽게 복사하여 프로젝트에 사용할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 사용 방법</h3>
+                    <ol>
+                        <li><strong>효과 타입 선택:</strong> 박스 그림자, 텍스트 그림자, 또는 그라디언트 중 하나를 선택합니다.</li>
+                        <li><strong>설정 조절:</strong>
+                            <ul>
+                                <li><strong>박스 그림자:</strong> X/Y 오프셋, 블러, 확산, 색상, 투명도를 조절합니다.</li>
+                                <li><strong>텍스트 그림자:</strong> X/Y 오프셋, 블러, 색상, 투명도를 조절합니다.</li>
+                                <li><strong>그라디언트:</strong> 타입(선형/방사형), 방향, 색상을 설정합니다.</li>
+                            </ul>
+                        </li>
+                        <li><strong>미리보기 확인:</strong> 실시간으로 변경 사항을 확인합니다.</li>
+                        <li><strong>CSS 코드 복사:</strong> "CSS 복사" 버튼을 클릭하여 코드를 복사합니다.</li>
+                    </ol>
+                </div>
+                <div class="description-section">
+                    <h3>💡 팁</h3>
+                    <ul>
+                        <li>박스 그림자의 확산 값은 음수로 설정하면 그림자가 작아집니다.</li>
+                        <li>텍스트 그림자는 여러 개를 중첩하여 사용할 수 있습니다.</li>
+                        <li>그라디언트의 방향은 각도(deg)로도 설정할 수 있습니다.</li>
+                        <li>색상 입력 필드에 HEX 코드를 직접 입력할 수 있습니다.</li>
+                        <li>투명도는 0%부터 100%까지 조절할 수 있습니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/shadow-gradient-generator.js"></script>
+</body>
+</html>
+

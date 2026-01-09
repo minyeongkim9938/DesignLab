@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>애니메이션 속도/트랜지션 계산기 - CSS 애니메이션 도구</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/converter.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>⚡ 애니메이션 속도/트랜지션 계산기</h1>
+            <p>CSS 애니메이션과 트랜지션의 속도와 타이밍을 계산하고 테스트하세요</p>
+        </header>
+
+        <main>
+            <!-- 타입 선택 -->
+            <div class="settings-section">
+                <h3>타입 선택</h3>
+                <div class="effect-type-buttons">
+                    <button class="btn btn-primary animation-type-btn active" data-type="transition">트랜지션</button>
+                    <button class="btn btn-secondary animation-type-btn" data-type="animation">애니메이션</button>
+                </div>
+            </div>
+
+            <!-- 트랜지션 컨트롤 -->
+            <div class="settings-section" id="transitionControls">
+                <h3>트랜지션 설정</h3>
+                <div class="layout-controls">
+                    <div class="control-group">
+                        <label for="transitionProperty">속성</label>
+                        <select id="transitionProperty" class="format-select">
+                            <option value="all">all (모든 속성)</option>
+                            <option value="background">background</option>
+                            <option value="color">color</option>
+                            <option value="transform">transform</option>
+                            <option value="opacity">opacity</option>
+                            <option value="width">width</option>
+                            <option value="height">height</option>
+                            <option value="margin">margin</option>
+                            <option value="padding">padding</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="transitionDuration">지속 시간 (초)</label>
+                        <input type="number" id="transitionDuration" value="0.3" min="0" max="10" step="0.1" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label for="transitionTiming">Easing 함수</label>
+                        <select id="transitionTiming" class="format-select">
+                            <option value="ease">ease</option>
+                            <option value="ease-in">ease-in</option>
+                            <option value="ease-out">ease-out</option>
+                            <option value="ease-in-out">ease-in-out</option>
+                            <option value="linear">linear</option>
+                            <option value="cubic-bezier(0.4, 0, 0.2, 1)">cubic-bezier (기본)</option>
+                            <option value="cubic-bezier(0.68, -0.55, 0.265, 1.55)">cubic-bezier (탄성)</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="transitionDelay">지연 시간 (초)</label>
+                        <input type="number" id="transitionDelay" value="0" min="0" max="5" step="0.1" class="format-select">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 애니메이션 컨트롤 -->
+            <div class="settings-section" id="animationControls" style="display: none;">
+                <h3>애니메이션 설정</h3>
+                <div class="layout-controls">
+                    <div class="control-group">
+                        <label for="animationName">애니메이션 이름</label>
+                        <input type="text" id="animationName" value="myAnimation" class="format-select" placeholder="애니메이션 이름">
+                    </div>
+                    <div class="control-group">
+                        <label for="animationDuration">지속 시간 (초)</label>
+                        <input type="number" id="animationDuration" value="1" min="0" max="10" step="0.1" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label for="animationTiming">Easing 함수</label>
+                        <select id="animationTiming" class="format-select">
+                            <option value="ease">ease</option>
+                            <option value="ease-in">ease-in</option>
+                            <option value="ease-out">ease-out</option>
+                            <option value="ease-in-out">ease-in-out</option>
+                            <option value="linear">linear</option>
+                            <option value="cubic-bezier(0.4, 0, 0.2, 1)">cubic-bezier (기본)</option>
+                            <option value="cubic-bezier(0.68, -0.55, 0.265, 1.55)">cubic-bezier (탄성)</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="animationDelay">지연 시간 (초)</label>
+                        <input type="number" id="animationDelay" value="0" min="0" max="5" step="0.1" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label for="animationIteration">반복 횟수</label>
+                        <input type="text" id="animationIteration" value="1" class="format-select" placeholder="1, infinite">
+                    </div>
+                    <div class="control-group">
+                        <label for="animationDirection">방향</label>
+                        <select id="animationDirection" class="format-select">
+                            <option value="normal">normal</option>
+                            <option value="reverse">reverse</option>
+                            <option value="alternate">alternate</option>
+                            <option value="alternate-reverse">alternate-reverse</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 미리보기 영역 -->
+            <div class="settings-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0;">미리보기</h3>
+                    <button class="btn btn-primary btn-small" id="playAnimationBtn" style="display: none;">재생</button>
+                </div>
+                <div class="preview-container-effect">
+                    <div class="preview-box-animation" id="previewBoxAnimation">
+                        <div class="preview-element" id="previewElement">Hover Me</div>
+                    </div>
+                </div>
+                <p class="preview-hint" id="previewHint">마우스를 올려보세요 (트랜지션)</p>
+            </div>
+
+            <!-- CSS 코드 -->
+            <div class="settings-section">
+                <div class="css-code-header">
+                    <h3>생성된 CSS 코드</h3>
+                    <button class="btn btn-secondary btn-small" id="copyCSSBtn">CSS 복사</button>
+                </div>
+                <div class="css-code-section">
+                    <pre id="cssCode"></pre>
+                </div>
+            </div>
+        </main>
+
+        <!-- 페이지 설명 섹션 -->
+        <section class="page-description">
+            <div class="description-header">
+                <h2>📖 사용법 안내</h2>
+                <button class="toggle-btn" id="toggleDescription">
+                    <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            <div class="description-content" id="descriptionContent">
+                <div class="description-section">
+                    <h3>🎯 주요 기능</h3>
+                    <ul>
+                        <li><strong>트랜지션:</strong> CSS 트랜지션 속성을 설정하고 테스트할 수 있습니다.</li>
+                        <li><strong>애니메이션:</strong> CSS 애니메이션 속성을 설정하고 테스트할 수 있습니다.</li>
+                        <li><strong>실시간 미리보기:</strong> 설정한 애니메이션/트랜지션을 즉시 확인할 수 있습니다.</li>
+                        <li><strong>Easing 함수:</strong> 다양한 타이밍 함수를 선택할 수 있습니다.</li>
+                        <li><strong>CSS 코드 생성:</strong> 생성된 CSS 코드를 쉽게 복사하여 프로젝트에 사용할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 사용 방법</h3>
+                    <ol>
+                        <li><strong>타입 선택:</strong> 트랜지션 또는 애니메이션 중 하나를 선택합니다.</li>
+                        <li><strong>설정 조절:</strong>
+                            <ul>
+                                <li><strong>트랜지션:</strong> 속성, 지속 시간, Easing 함수, 지연 시간을 설정합니다.</li>
+                                <li><strong>애니메이션:</strong> 이름, 지속 시간, Easing 함수, 지연 시간, 반복 횟수, 방향을 설정합니다.</li>
+                            </ul>
+                        </li>
+                        <li><strong>미리보기 확인:</strong> 마우스를 올리거나 클릭하여 애니메이션/트랜지션을 확인합니다.</li>
+                        <li><strong>CSS 코드 복사:</strong> "CSS 복사" 버튼을 클릭하여 코드를 복사합니다.</li>
+                    </ol>
+                </div>
+                <div class="description-section">
+                    <h3>💡 팁</h3>
+                    <ul>
+                        <li>트랜지션은 호버나 클릭 시 변화를 부드럽게 만들어줍니다.</li>
+                        <li>애니메이션은 자동으로 반복되는 효과를 만들 수 있습니다.</li>
+                        <li>Easing 함수는 애니메이션의 속도 곡선을 결정합니다.</li>
+                        <li>지연 시간을 설정하면 애니메이션 시작을 늦출 수 있습니다.</li>
+                        <li>반복 횟수에 "infinite"를 입력하면 무한 반복됩니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/animation-transition-calculator.js"></script>
+</body>
+</html>
+

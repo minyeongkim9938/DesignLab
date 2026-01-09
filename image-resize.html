@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>온라인 이미지 크기 조절</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>🖼️ 이미지 크기 조절</h1>
+            <p>이미지를 업로드하고 원하는 크기로 조절하세요</p>
+        </header>
+
+        <main>
+            <!-- 업로드 영역 -->
+            <div class="upload-section" id="uploadSection">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📤</div>
+                    <h3>이미지를 드래그하거나 클릭하여 업로드</h3>
+                    <p>JPG, PNG, GIF, WEBP 지원</p>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        파일 선택
+                    </button>
+                </div>
+            </div>
+
+            <!-- 편집 영역 -->
+            <div class="edit-section" id="editSection" style="display: none;">
+                <div class="preview-container">
+                    <div class="preview-wrapper" id="previewWrapper">
+                        <canvas id="previewCanvas"></canvas>
+                        <canvas id="cropCanvas" style="display: none; position: absolute; top: 0; left: 0; pointer-events: none;"></canvas>
+                    </div>
+                    <div class="image-info">
+                        <div class="info-item">
+                            <span class="label">원본 크기:</span>
+                            <span id="originalSize">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">현재 크기:</span>
+                            <span id="currentSize">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">파일 크기:</span>
+                            <span id="fileSize">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-container">
+                    <!-- 이미지 편집 기능 -->
+                    <div class="edit-tools-section">
+                        <h3>이미지 편집</h3>
+                        <div class="tool-buttons-grid">
+                            <button class="btn btn-tool" id="cropBtn" title="자르기">
+                                <span class="tool-icon">✂️</span>
+                                <span>자르기</span>
+                            </button>
+                            <button class="btn btn-tool" id="flipBtn" title="좌우 반전">
+                                <span class="tool-icon">↔️</span>
+                                <span>좌우 반전</span>
+                            </button>
+                            <button class="btn btn-tool" id="rotateBtn" title="90도 회전">
+                                <span class="tool-icon">🔄</span>
+                                <span>회전</span>
+                            </button>
+                            <button class="btn btn-tool" id="pixelateBtn" title="픽셀화">
+                                <span class="tool-icon">🔲</span>
+                                <span>픽셀화</span>
+                            </button>
+                            <button class="btn btn-tool" id="grayscaleBtn" title="흑백">
+                                <span class="tool-icon">⚫</span>
+                                <span>흑백</span>
+                            </button>
+                        </div>
+                        
+                        <!-- 자르기 모드 컨트롤 -->
+                        <div class="crop-controls" id="cropControls" style="display: none;">
+                            <p class="crop-hint">이미지에서 자를 영역을 드래그하여 선택하세요</p>
+                            <div class="crop-action-buttons">
+                                <button class="btn btn-primary" id="cropApplyBtn">자르기 적용</button>
+                                <button class="btn btn-secondary" id="cropCancelBtn">취소</button>
+                            </div>
+                        </div>
+
+                        <!-- 픽셀화 강도 조절 -->
+                        <div class="pixelate-controls" id="pixelateControls" style="display: none;">
+                            <label for="pixelateSlider">픽셀화 강도: <span id="pixelateValue">10</span></label>
+                            <input type="range" id="pixelateSlider" min="2" max="50" value="10">
+                        </div>
+                    </div>
+
+                    <!-- 크기 조절 옵션 -->
+                    <div class="resize-section">
+                        <h3>크기 조절 옵션</h3>
+                        
+                        <div class="control-group">
+                            <label>
+                                <input type="checkbox" id="maintainRatio" checked>
+                                비율 유지
+                            </label>
+                        </div>
+
+                        <div class="control-row">
+                            <div class="control-item">
+                                <label for="widthInput">너비 (px)</label>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="number" id="widthInput" min="1" placeholder="자동">
+                                    <button class="btn btn-small" id="widthPercentBtn">%</button>
+                                </div>
+                            </div>
+                            <div class="control-item">
+                                <label for="heightInput">높이 (px)</label>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="number" id="heightInput" min="1" placeholder="자동">
+                                    <button class="btn btn-small" id="heightPercentBtn">%</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preset-buttons">
+                            <h4>프리셋 크기</h4>
+                            <div class="preset-grid">
+                                <button class="btn btn-preset" data-width="1920" data-height="1080">Full HD (1920x1080)</button>
+                                <button class="btn btn-preset" data-width="1280" data-height="720">HD (1280x720)</button>
+                                <button class="btn btn-preset" data-width="800" data-height="600">웹용 (800x600)</button>
+                                <button class="btn btn-preset" data-width="640" data-height="480">작은 크기 (640x480)</button>
+                                <button class="btn btn-preset" data-width="400" data-height="400">정사각형 (400x400)</button>
+                                <button class="btn btn-preset" data-width="300" data-height="300">썸네일 (300x300)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 품질 및 다운로드 -->
+                    <div class="quality-section">
+                        <div class="quality-control">
+                            <label for="qualitySlider">품질: <span id="qualityValue">90</span>%</label>
+                            <input type="range" id="qualitySlider" min="10" max="100" value="90">
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" id="resetBtn">초기화</button>
+                            <button class="btn btn-primary" id="downloadBtn">다운로드</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 페이지 설명 섹션 -->
+        <section class="page-description">
+            <div class="description-header">
+                <h2>📖 사용법 안내</h2>
+                <button class="toggle-btn" id="toggleDescription">
+                    <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            <div class="description-content" id="descriptionContent">
+                <div class="description-section">
+                    <h3>🎯 주요 기능</h3>
+                    <ul>
+                        <li><strong>크기 조절:</strong> 이미지의 너비와 높이를 픽셀 또는 퍼센트로 조절할 수 있습니다.</li>
+                        <li><strong>비율 유지:</strong> 원본 이미지의 비율을 유지하면서 크기를 조절할 수 있습니다.</li>
+                        <li><strong>자르기:</strong> 이미지에서 원하는 영역만 선택하여 자를 수 있습니다.</li>
+                        <li><strong>회전:</strong> 이미지를 90도씩 회전시킬 수 있습니다.</li>
+                        <li><strong>좌우 반전:</strong> 이미지를 좌우로 반전시킬 수 있습니다.</li>
+                        <li><strong>픽셀화:</strong> 이미지를 픽셀 아트 스타일로 변환할 수 있습니다.</li>
+                        <li><strong>흑백 변환:</strong> 컬러 이미지를 흑백으로 변환할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 사용 방법</h3>
+                    <ol>
+                        <li><strong>이미지 업로드:</strong> 드래그 앤 드롭 또는 "파일 선택" 버튼을 클릭하여 이미지를 업로드합니다.</li>
+                        <li><strong>크기 조절:</strong>
+                            <ul>
+                                <li>너비 또는 높이 입력 필드에 원하는 크기를 입력합니다.</li>
+                                <li>"비율 유지" 옵션이 켜져 있으면 자동으로 비율에 맞게 조절됩니다.</li>
+                                <li>프리셋 버튼을 사용하여 빠르게 일반적인 크기로 조절할 수 있습니다.</li>
+                            </ul>
+                        </li>
+                        <li><strong>이미지 편집:</strong>
+                            <ul>
+                                <li>자르기: "자르기" 버튼을 클릭한 후 이미지에서 영역을 드래그하여 선택합니다.</li>
+                                <li>회전: "회전" 버튼을 클릭하면 90도씩 회전합니다.</li>
+                                <li>반전: "좌우 반전" 버튼을 클릭하여 이미지를 반전시킵니다.</li>
+                                <li>픽셀화: "픽셀화" 버튼을 클릭하고 슬라이더로 강도를 조절합니다.</li>
+                                <li>흑백: "흑백" 버튼을 클릭하여 컬러를 제거합니다.</li>
+                            </ul>
+                        </li>
+                        <li><strong>품질 조절:</strong> 슬라이더를 사용하여 다운로드할 이미지의 품질을 조절합니다 (10-100%).</li>
+                        <li><strong>다운로드:</strong> "다운로드" 버튼을 클릭하여 편집된 이미지를 저장합니다.</li>
+                        <li><strong>초기화:</strong> "초기화" 버튼을 클릭하면 모든 편집을 취소하고 원본 상태로 돌아갑니다.</li>
+                    </ol>
+                </div>
+                <div class="description-section">
+                    <h3>💡 팁</h3>
+                    <ul>
+                        <li>여러 편집 기능을 조합하여 사용할 수 있습니다 (예: 회전 + 흑백 + 크기 조절).</li>
+                        <li>픽셀 모드와 퍼센트 모드를 전환하려면 입력 필드 옆의 "%" 버튼을 클릭하세요.</li>
+                        <li>프리셋 크기를 사용하면 빠르게 일반적인 크기로 조절할 수 있습니다.</li>
+                        <li>품질을 낮추면 파일 크기가 줄어들지만 화질이 저하될 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📋 지원 포맷</h3>
+                    <p>JPG, PNG, GIF, WEBP 형식의 이미지를 업로드할 수 있습니다.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

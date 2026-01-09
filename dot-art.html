@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도트아트 모음 - 텍스트 아트 복사</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/converter.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>🎨 도트아트 모음</h1>
+            <p>다양한 도트아트를 클릭하여 복사하세요</p>
+        </header>
+
+        <main>
+            <!-- 도트아트 표시 영역 -->
+            <div class="settings-section">
+                <div class="css-code-header">
+                    <h3>도트아트</h3>
+                    <span id="artCount" style="color: #667eea; font-weight: 500;">0개</span>
+                </div>
+                <div id="artGrid" class="emoji-grid dot-art-grid">
+                    <!-- 동적으로 생성됨 -->
+                </div>
+            </div>
+
+            <!-- 복사 알림 -->
+            <div id="copyToast" class="copy-toast" style="display: none;">
+                <span id="copyToastText">복사되었습니다!</span>
+            </div>
+        </main>
+
+        <!-- 페이지 설명 섹션 -->
+        <section class="page-description">
+            <div class="description-header">
+                <h2>📖 사용법 안내</h2>
+                <button class="toggle-btn" id="toggleDescription">
+                    <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            <div class="description-content" id="descriptionContent">
+                <div class="description-section">
+                    <h3>🎯 주요 기능</h3>
+                    <ul>
+                        <li><strong>클릭 복사:</strong> 도트아트를 클릭하면 자동으로 클립보드에 복사됩니다.</li>
+                        <li><strong>다양한 스타일:</strong> 다양한 도트아트 작품을 제공합니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 사용 방법</h3>
+                    <ol>
+                        <li><strong>복사:</strong> 원하는 도트아트를 클릭하면 자동으로 클립보드에 복사됩니다.</li>
+                        <li><strong>사용:</strong> 복사된 도트아트를 Instagram, Facebook, 메시지 등에 붙여넣어 사용합니다.</li>
+                    </ol>
+                </div>
+                <div class="description-section">
+                    <h3>💡 팁</h3>
+                    <ul>
+                        <li>도트아트를 클릭하면 "복사되었습니다!" 메시지가 표시됩니다.</li>
+                        <li>복사된 도트아트는 모든 소셜 미디어 및 메시지 앱에서 사용할 수 있습니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/dot-art.js"></script>
+</body>
+</html>
+

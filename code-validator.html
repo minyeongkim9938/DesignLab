@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코드 검증기 - HTML/CSS/JS 코드 검증 도구</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/converter.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>✅ 코드 검증기</h1>
+            <p>HTML, CSS, TypeScript 코드를 검증하고 포맷팅하세요</p>
+        </header>
+
+        <main>
+            <!-- 코드 타입 선택 -->
+            <div class="settings-section">
+                <h3>코드 타입 선택</h3>
+                <div class="code-type-buttons">
+                    <button class="btn btn-preset code-type-btn active" data-type="html">HTML</button>
+                    <button class="btn btn-preset code-type-btn" data-type="css">CSS</button>
+                    <button class="btn btn-preset code-type-btn" data-type="ts">TypeScript</button>
+                </div>
+            </div>
+
+            <!-- 코드 입력 영역 -->
+            <div class="settings-section">
+                <div class="code-header">
+                    <h3 id="codeTypeTitle">HTML 코드</h3>
+                    <div class="code-actions">
+                        <button class="btn btn-primary" id="validateBtn">검증하기</button>
+                        <button class="btn btn-secondary" id="formatBtn">포맷팅</button>
+                        <button class="btn btn-secondary" id="clearBtn">지우기</button>
+                    </div>
+                </div>
+                <textarea id="codeInput" class="code-textarea" placeholder="코드를 입력하세요..."></textarea>
+            </div>
+
+            <!-- 검증 결과 영역 -->
+            <div class="settings-section" id="resultSection" style="display: none;">
+                <div class="result-header">
+                    <h3>검증 결과</h3>
+                    <button class="btn btn-primary" id="copyResultBtn">결과 복사</button>
+                </div>
+                <div id="validationResult" class="validation-result"></div>
+            </div>
+
+            <!-- 포맷팅 결과 영역 -->
+            <div class="settings-section" id="formatSection" style="display: none;">
+                <div class="result-header">
+                    <h3>포맷팅된 코드</h3>
+                    <button class="btn btn-primary" id="copyFormatBtn">코드 복사</button>
+                </div>
+                <pre id="formattedCode" class="formatted-code"></pre>
+            </div>
+        </main>
+
+        <!-- 페이지 설명 섹션 -->
+        <section class="page-description">
+            <div class="description-header">
+                <h2>📖 사용법 안내</h2>
+                <button class="toggle-btn" id="toggleDescription">
+                    <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            <div class="description-content" id="descriptionContent">
+                <div class="description-section">
+                    <h3>🎯 주요 기능</h3>
+                    <ul>
+                        <li><strong>코드 검증:</strong> HTML, CSS, JavaScript 코드의 문법 오류를 검사합니다.</li>
+                        <li><strong>코드 포맷팅:</strong> 코드를 읽기 쉽게 정리하고 포맷팅합니다.</li>
+                        <li><strong>다중 언어 지원:</strong> HTML, CSS, TypeScript 세 가지 언어를 지원합니다.</li>
+                        <li><strong>오류 표시:</strong> 발견된 오류를 명확하게 표시하고 설명합니다.</li>
+                        <li><strong>실시간 검증:</strong> 코드를 입력하면 즉시 검증 결과를 확인할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 사용 방법</h3>
+                    <ol>
+                        <li>상단에서 코드 타입(HTML, CSS, TypeScript)을 선택합니다.</li>
+                        <li>코드를 입력하거나 붙여넣습니다.</li>
+                        <li>"검증하기" 버튼을 클릭하여 코드를 검증합니다.</li>
+                        <li>"포맷팅" 버튼을 클릭하여 코드를 정리합니다.</li>
+                        <li>검증 결과와 포맷팅된 코드를 확인합니다.</li>
+                    </ol>
+                </div>
+                <div class="description-section">
+                    <h3>⚠️ 주의사항</h3>
+                    <ul>
+                        <li>일부 복잡한 코드는 완벽하게 검증되지 않을 수 있습니다.</li>
+                        <li>외부 라이브러리나 프레임워크 코드는 검증이 제한적일 수 있습니다.</li>
+                        <li>검증 결과는 참고용이며, 실제 프로덕션 환경에서는 추가 테스트가 필요합니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/code-validator.js"></script>
+</body>
+</html>
+

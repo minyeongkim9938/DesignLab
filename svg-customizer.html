@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이콘 & SVG 커스터마이저 - SVG 아이콘 편집 도구</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/converter.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>🎨 아이콘 & SVG 커스터마이저</h1>
+            <p>SVG 아이콘을 업로드하고 색상, 크기, 회전 등을 커스터마이징하세요</p>
+        </header>
+
+        <main>
+            <!-- 업로드 영역 -->
+            <div class="settings-section">
+                <h3>SVG 업로드</h3>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📤</div>
+                    <h3>SVG 파일을 드래그하거나 클릭하여 업로드</h3>
+                    <p>SVG 파일 또는 SVG 코드를 입력하세요</p>
+                    <input type="file" id="fileInput" accept=".svg,image/svg+xml" hidden>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        파일 선택
+                    </button>
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-secondary btn-small" id="pasteSVGBtn">SVG 코드 붙여넣기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프리셋 SVG 아이콘 -->
+            <div class="settings-section">
+                <h3>프리셋 SVG 아이콘</h3>
+                <p style="color: #666; margin-bottom: 20px;">사용 가능한 SVG 아이콘을 선택하여 다운로드하거나 편집할 수 있습니다.</p>
+                <div class="svg-icons-grid" id="svgIconsGrid">
+                    <!-- 동적으로 아이콘 생성 -->
+                </div>
+            </div>
+
+            <!-- SVG 코드 입력 (초기에는 숨김) -->
+            <div class="settings-section" id="svgCodeSection" style="display: none;">
+                <h3>SVG 코드 편집</h3>
+                <textarea id="svgCodeInput" class="svg-code-textarea" placeholder="SVG 코드를 입력하세요..."></textarea>
+                <button class="btn btn-primary" id="applySVGBtn">적용</button>
+            </div>
+
+            <!-- 편집 컨트롤 -->
+            <div class="settings-section" id="editControls" style="display: none;">
+                <h3>편집 옵션</h3>
+                <div class="layout-controls">
+                    <div class="control-group">
+                        <label for="svgColor">색상</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="color" id="svgColor" value="#667eea" class="color-input">
+                            <input type="text" id="svgColorHex" value="#667eea" class="hex-input">
+                            <button class="btn btn-secondary btn-small" id="resetColorBtn">초기화</button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="svgWidth">너비 (px)</label>
+                        <input type="number" id="svgWidth" value="200" min="10" max="1000" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label for="svgHeight">높이 (px)</label>
+                        <input type="number" id="svgHeight" value="200" min="10" max="1000" class="format-select">
+                    </div>
+                    <div class="control-group">
+                        <label for="svgRotation">회전 (도)</label>
+                        <input type="range" id="svgRotation" min="0" max="360" value="0" class="range-input">
+                        <div class="range-value" id="svgRotationValue">0°</div>
+                    </div>
+                    <div class="control-group">
+                        <label>
+                            <input type="checkbox" id="keepAspectRatio" checked>
+                            비율 유지
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 미리보기 영역 -->
+            <div class="settings-section" id="previewSection" style="display: none;">
+                <h3>미리보기</h3>
+                <div class="preview-container-svg">
+                    <div class="preview-svg-wrapper" id="previewSvgWrapper">
+                        <!-- SVG가 여기에 삽입됨 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 다운로드 영역 -->
+            <div class="settings-section" id="downloadSection" style="display: none;">
+                <div class="css-code-header">
+                    <h3>다운로드</h3>
+                    <button class="btn btn-primary" id="downloadSVGBtn">SVG 다운로드</button>
+                </div>
+                <div class="css-code-section">
+                    <pre id="svgOutput"></pre>
+                </div>
+            </div>
+        </main>
+
+        <!-- 페이지 설명 섹션 -->
+        <section class="page-description">
+            <div class="description-header">
+                <h2>📖 사용법 안내</h2>
+                <button class="toggle-btn" id="toggleDescription">
+                    <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            <div class="description-content" id="descriptionContent">
+                <div class="description-section">
+                    <h3>🎯 주요 기능</h3>
+                    <ul>
+                        <li><strong>SVG 파일 업로드:</strong> SVG 파일을 업로드하여 편집할 수 있습니다.</li>
+                        <li><strong>SVG 코드 입력:</strong> SVG 코드를 직접 입력하거나 붙여넣을 수 있습니다.</li>
+                        <li><strong>색상 변경:</strong> SVG 아이콘의 색상을 변경할 수 있습니다.</li>
+                        <li><strong>크기 조절:</strong> 너비와 높이를 조절할 수 있습니다.</li>
+                        <li><strong>회전:</strong> SVG 아이콘을 회전시킬 수 있습니다.</li>
+                        <li><strong>다운로드:</strong> 편집된 SVG 파일을 다운로드할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 사용 방법</h3>
+                    <ol>
+                        <li><strong>SVG 업로드:</strong>
+                            <ul>
+                                <li>파일 선택 버튼을 클릭하여 SVG 파일을 업로드하거나</li>
+                                <li>"SVG 코드 붙여넣기" 버튼을 클릭하여 SVG 코드를 입력합니다.</li>
+                            </ul>
+                        </li>
+                        <li><strong>편집 옵션 설정:</strong>
+                            <ul>
+                                <li><strong>색상:</strong> 색상 피커나 HEX 코드로 색상을 변경합니다.</li>
+                                <li><strong>크기:</strong> 너비와 높이를 픽셀 단위로 조절합니다.</li>
+                                <li><strong>회전:</strong> 슬라이더를 사용하여 회전 각도를 조절합니다.</li>
+                                <li><strong>비율 유지:</strong> 체크박스를 선택하면 너비와 높이 비율이 유지됩니다.</li>
+                            </ul>
+                        </li>
+                        <li><strong>미리보기 확인:</strong> 변경 사항을 실시간으로 확인합니다.</li>
+                        <li><strong>다운로드:</strong> "SVG 다운로드" 버튼을 클릭하여 편집된 SVG를 저장합니다.</li>
+                    </ol>
+                </div>
+                <div class="description-section">
+                    <h3>💡 팁</h3>
+                    <ul>
+                        <li>SVG 코드를 직접 편집하여 더 세밀한 조정이 가능합니다.</li>
+                        <li>색상 변경은 SVG의 fill 속성을 변경합니다. stroke 속성이 있는 경우 stroke도 변경됩니다.</li>
+                        <li>비율 유지를 선택하면 너비를 변경하면 높이가 자동으로 조절됩니다.</li>
+                        <li>회전은 0도부터 360도까지 가능합니다.</li>
+                        <li>일부 복잡한 SVG의 경우 색상 변경이 제대로 작동하지 않을 수 있습니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/svg-customizer.js"></script>
+</body>
+</html>
+

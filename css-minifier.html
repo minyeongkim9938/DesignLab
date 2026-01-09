@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Minifier - CSS 압축 도구</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/converter.css">
+</head>
+<body>
+    <!-- 공통 네비게이션 컴포넌트 -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <header>
+            <h1>📦 CSS Minifier</h1>
+            <p>CSS 파일을 압축하여 파일 크기를 줄이고 로딩 속도를 향상시키세요</p>
+        </header>
+
+        <main>
+            <!-- 업로드 영역 -->
+            <div class="settings-section">
+                <h3>CSS 입력</h3>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📤</div>
+                    <h3>CSS 파일을 드래그하거나 클릭하여 업로드</h3>
+                    <p>또는 CSS 코드를 직접 입력하세요</p>
+                    <input type="file" id="fileInput" accept=".css,text/css" hidden>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        파일 선택
+                    </button>
+                </div>
+            </div>
+
+            <!-- CSS 입력 영역 -->
+            <div class="settings-section">
+                <h3>CSS 코드</h3>
+                <textarea id="cssInput" class="css-textarea" placeholder="CSS 코드를 입력하거나 파일을 업로드하세요..."></textarea>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-primary" id="minifyBtn">압축하기</button>
+                    <button class="btn btn-secondary" id="clearBtn">지우기</button>
+                </div>
+            </div>
+
+            <!-- 결과 영역 -->
+            <div class="settings-section" id="resultSection" style="display: none;">
+                <div class="css-code-header">
+                    <h3>압축된 CSS</h3>
+                    <button class="btn btn-primary" id="copyBtn">복사</button>
+                    <button class="btn btn-secondary" id="downloadBtn">다운로드</button>
+                </div>
+                <div class="css-code-section">
+                    <pre id="cssOutput"></pre>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>원본 크기:</strong> <span id="originalSize">0</span> bytes
+                        </div>
+                        <div>
+                            <strong>압축 크기:</strong> <span id="minifiedSize">0</span> bytes
+                        </div>
+                        <div>
+                            <strong>압축률:</strong> <span id="compressionRatio">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 페이지 설명 섹션 -->
+        <section class="page-description">
+            <div class="description-header">
+                <h2>📖 사용법 안내</h2>
+                <button class="toggle-btn" id="toggleDescription">
+                    <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            <div class="description-content" id="descriptionContent">
+                <div class="description-section">
+                    <h3>🎯 주요 기능</h3>
+                    <ul>
+                        <li><strong>CSS 압축:</strong> CSS 파일을 minified 버전으로 변환하여 파일 크기를 줄입니다.</li>
+                        <li><strong>파일 업로드:</strong> CSS 파일을 드래그 앤 드롭하거나 파일 선택으로 업로드할 수 있습니다.</li>
+                        <li><strong>코드 입력:</strong> CSS 코드를 직접 입력하거나 붙여넣을 수 있습니다.</li>
+                        <li><strong>압축 통계:</strong> 원본 크기, 압축 크기, 압축률을 확인할 수 있습니다.</li>
+                        <li><strong>다운로드:</strong> 압축된 CSS 파일을 다운로드할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="description-section">
+                    <h3>📝 사용 방법</h3>
+                    <ol>
+                        <li><strong>CSS 입력:</strong>
+                            <ul>
+                                <li>파일 선택 버튼을 클릭하여 CSS 파일을 업로드하거나</li>
+                                <li>텍스트 영역에 CSS 코드를 직접 입력합니다.</li>
+                            </ul>
+                        </li>
+                        <li><strong>압축하기:</strong> "압축하기" 버튼을 클릭하여 CSS를 minified 버전으로 변환합니다.</li>
+                        <li><strong>결과 확인:</strong> 압축된 CSS 코드와 압축 통계를 확인합니다.</li>
+                        <li><strong>복사/다운로드:</strong> "복사" 버튼으로 클립보드에 복사하거나 "다운로드" 버튼으로 파일을 저장합니다.</li>
+                    </ol>
+                </div>
+                <div class="description-section">
+                    <h3>💡 팁</h3>
+                    <ul>
+                        <li>CSS 압축은 공백, 줄바꿈, 주석을 제거하여 파일 크기를 줄입니다.</li>
+                        <li>압축된 CSS는 읽기 어려울 수 있으므로, 원본 파일은 백업해두는 것을 권장합니다.</li>
+                        <li>개발 환경에서는 원본 CSS를 사용하고, 프로덕션 환경에서만 minified 버전을 사용하는 것이 좋습니다.</li>
+                        <li>일부 복잡한 CSS 선택자나 값은 압축 과정에서 문제가 발생할 수 있으니 확인 후 사용하세요.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 푸터 컴포넌트 -->
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/nav.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/css-minifier.js"></script>
+</body>
+</html>
+
